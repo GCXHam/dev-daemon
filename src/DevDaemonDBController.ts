@@ -193,12 +193,12 @@ export class DevDaemonDBController {
   //#region Ref getters
   /** DocumentReference<MasterUserData>を取得する */
   private getUserDataMasterRef(id: string): DocumentReference<MasterUserData> {
-    return doc(this.db, "users", id).withConverter(master_user_data_converter);
+    return doc(this.db, "/users", id).withConverter(master_user_data_converter);
   }
 
   /** DocumentReference<TeamData>を取得する */
   private getTeamDataRef(id: string): DocumentReference<TeamData> {
-    return doc(this.db, "teams", id).withConverter(team_data_converter);
+    return doc(this.db, "/teams", id).withConverter(team_data_converter);
   }
 
   /** DocumentReference<UserDataInTeam>を取得する */
@@ -206,7 +206,7 @@ export class DevDaemonDBController {
     team_id: string,
     user_id: string
   ): DocumentReference<UserDataInTeam> {
-    return doc(this.db, "teams", team_id, "users", user_id).withConverter(
+    return doc(this.db, "/teams", team_id, "users", user_id).withConverter(
       user_data_in_team_converter
     );
   }
@@ -216,7 +216,7 @@ export class DevDaemonDBController {
     team_id: string,
     user_id: string
   ): DocumentReference<TeamDataInUser> {
-    return doc(this.db, "users", user_id, "teams", team_id).withConverter(
+    return doc(this.db, "/users", user_id, "teams", team_id).withConverter(
       team_data_in_user_converter
     );
   }
