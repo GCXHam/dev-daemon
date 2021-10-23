@@ -1,0 +1,127 @@
+@charset "utf-8";
+
+/*========= レイアウトのためのCSS ===============*/
+body{
+  margin:0;
+  padding: 0;
+  background-color: #9BD0AC;
+}
+header{
+  width:100%;
+  background-color: #329374;
+  position: fixed;
+  top:0;
+  left: 0;
+  z-index:500;
+}
+header h1{
+  color: #fff;
+  margin:0;
+  padding:10px 0 10px 25px;
+  font-size: 1.5em;
+}
+
+h1,h2{
+  font-size:1.2rem;
+}
+
+h2{
+  margin-bottom: 10px;
+}
+#container p,
+small{
+  margin:0 0 20px 0;
+}
+
+small{
+  display: block;
+  text-align: center;
+}
+
+p{
+  font-size: 1.2em;
+}
+
+.left{
+    display: flex;  
+}
+
+/*========= 右固定レイアウトのためのCSS ===============*/
+
+/*左と右を囲う全体のエリア*/
+#wrapper{
+  position: relative;/*position stickyの基点にするため relativeをかける*/
+    display: flex;/*左エリア、右エリア横並び指定*/
+  flex-wrap: wrap;/*ボックスの折り返し可*/
+}
+
+/*右エリア*/
+#fixed-area{
+  /*左固定記述*/
+    position: -webkit-sticky;/*Safari用*/
+    position: sticky;
+  top:0;
+  /*横半分50%　縦を100vhにする*/
+  width: 75%;
+  height: 100vh;
+  /*装飾のためのCSS*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size:cover;
+  color:#fff;
+}
+
+/*左エリア*/
+#container{
+  /*横半分50%にする*/
+  width:25%;
+}
+
+
+/*左各セクション 装飾のためのCSS*/
+section{
+  min-height: 100vh;
+  padding:30px;
+  background-color: #F2F2F2;
+  border-radius: 20px;
+  margin:75px 10px 15px 10px;
+}
+
+section:nth-of-type(2n){
+/*装飾のためのCSS*/
+  background:#eee;
+}
+
+/*メンバーリスト　装飾のためのCSS*/
+ul {
+  padding: 0.5em;/*ボックス内の余白*/
+  margin:0 20px;
+}
+
+ul li {
+  line-height: 1.5; /*文の行高*/
+  padding: 0.5em 0; /*前後の文との余白*/
+  font-size: 1.2em;
+}
+
+/*＝＝＝＝＝＝＝＝＝＝＝768px以下の見え方＝＝＝＝＝＝＝＝＝＝＝＝＝*/
+
+@media screen and (max-width:768px){
+#wrapper{
+  display: block;/*display:flex;を解除*/
+}
+section{
+  min-height:auto;/*縦を100vh⇒解除*/
+}
+
+#fixed-area{
+  position:relative!important;/*position stickyを解除*/
+  width:100%;/*横幅を100%にして1列に見せる*/
+  height: 40vh;/*縦幅を100vh⇒40vh　※任意の高さに設定可能*/
+}
+
+#container{
+  width:100%;/*横幅を100%にして1列に見せる*/
+}
+}
