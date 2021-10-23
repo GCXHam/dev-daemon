@@ -366,7 +366,7 @@ export class DevDaemonDBController {
       state: "Working",
       lastUpdate: new Date()
     });*/
-    this.addMemberToTeam(team_id, this.userID, true);
+    this.addMemberToTeam(this.userID, team_id, true);
 
     this.team_data_ref = newTeamDataRef;
     this.user_data_in_team_ref = userDataInNewTeamRef;
