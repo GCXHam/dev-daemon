@@ -233,25 +233,24 @@ export class DevDaemonDBController {
     return this._user_id;
   }
   /** ログイン中のユーザのID */
-  public set userID(id: string) {
+  public async setUserID(id: string) {
     const data_ref = this.getUserDataMasterRef(id);
-    getDoc(data_ref)
-      .then((docSnap) => {
-        if (!docSnap.exists()) {
-          const msg = "userID : " + id + " was not found.";
-          console.error(msg);
-          throw new Error(msg);
-        }
 
-        this._user_id = id;
-        this.user_data_master_ref = data_ref;
+    const docSnap = await getDoc(data_ref).catch(e => {
+      console.error("Error has occured : ", e);
+      throw e;
+    });
 
-        this.user_data_cache = docSnap.data();
-      })
-      .catch((e) => {
-        console.error("Error has occured : ", e);
-        throw e;
-      });
+    if (!docSnap.exists()) {
+      const msg = "userID : " + id + " was not found.";
+      console.error(msg);
+      throw new Error(msg);
+    }
+
+    this._user_id = id;
+    this.user_data_master_ref = data_ref;
+
+    this.user_data_cache = docSnap.data();
   }
   //#endregion
 
@@ -261,52 +260,51 @@ export class DevDaemonDBController {
     return this._team_id;
   }
   /** 現在使用中のチームのID */
-  public set teamID(id: string) {
+  public async setTeamID(id: string) {
     const data_ref = this.getTeamDataRef(id);
 
-    getDoc(data_ref)
-      .then((docSnap) => {
-        //指定のteamIDが存在していたかチェック
-        if (!docSnap.exists()) {
-          const msg = "teamID : " + id + " was not found.";
-          console.error(msg);
-          throw new Error(msg);
-        }
+    const docSnap = await getDoc(data_ref).catch(e => {
+      console.error("Error has occured : ", e);
+      throw e;
+    });
 
-        //Team内にUserがいるかどうか判定 => いなかったら失敗
+    //指定のteamIDが存在していたかチェック
+    if (!docSnap.exists()) {
+      const msg = "teamID : " + id + " was not found.";
+      console.error(msg);
+      throw new Error(msg);
+    }
 
-        //既に購読していたら, 一度購読解除する
-        if (this.unsubscribe_team_data != null) this.unsubscribe_team_data();
+    //Team内にUserがいるかどうか判定 => いなかったら失敗
+    //TODO
 
-        //teamIDを更新
-        this._team_id = id;
+    //既に購読していたら, 一度購読解除する
+    if (this.unsubscribe_team_data != null) this.unsubscribe_team_data();
 
-        //参照設定を更新
-        this.team_data_ref = data_ref;
-        this.user_data_in_team_ref = this.getUserDataInTeamRef(id, this.userID);
+    //teamIDを更新
+    this._team_id = id;
 
-        //グループに所属する各員のデータ変更をSubscribe
-        this.unsubscribe_team_data = onSnapshot(
-          collection(this.db, data_ref.path, "users"),
-          (doc) => {
-            const states: { [name: string]: string } = {};
+    //参照設定を更新
+    this.team_data_ref = data_ref;
+    this.user_data_in_team_ref = this.getUserDataInTeamRef(id, this.userID);
 
-            //各員のStateを取得
-            doc.forEach((d) => {
-              const data = d.data();
-              if (data?.State != null && data?.DisplayName != null)
-                states[data.DisplayName] = data.State;
-            });
+    //グループに所属する各員のデータ変更をSubscribe
+    this.unsubscribe_team_data = onSnapshot(
+      collection(this.db, data_ref.path, "users"),
+      (doc) => {
+        const states: { [name: string]: string } = {};
 
-            //DEBUG
-            console.debug("Current data: ", states);
-          }
-        );
-      })
-      .catch((e) => {
-        console.error("Error has occured : ", e);
-        throw e;
-      });
+        //各員のStateを取得
+        doc.forEach((d) => {
+          const data = d.data();
+          if (data?.State != null && data?.DisplayName != null)
+            states[data.DisplayName] = data.State;
+        });
+
+        //DEBUG
+        console.debug("Current data: ", states);
+      }
+    );
   }
   //#endregion
 
