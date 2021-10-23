@@ -8,10 +8,12 @@ function Button({ title, button_size, text_color, bg_color }) {
 
   return (
     // TODO: if `react-router-dom` is installed, insert `Link` tag.
-    <div
-      className={`button-style ${checkButtonSize} ${checkTextColor} ${checkBgColor}`}
-    >
-      {title}
+    <div>
+      <input
+        className={`button-style ${checkButtonSize} ${checkTextColor} ${checkBgColor}`}
+        type="submit"
+        value={title}
+      />
     </div>
   );
 }
