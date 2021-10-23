@@ -309,7 +309,7 @@ export class DevDaemonDBController {
   //#endregion
 
   /** 自身が所属するチームのリストを取得する */
-  public getJoiningTeamList(): TeamDataInUser[] {
+  public async getJoiningTeamList(): Promise<TeamDataInUser[]> {
     if (this.user_data_master_ref == null) throw new Error("UserID is not set");
 
     const data_ref = collection(
@@ -320,9 +320,9 @@ export class DevDaemonDBController {
 
     const ret_arr: TeamDataInUser[] = [];
 
-    getDocs(data_ref).then((values) =>
-      values.forEach((doc) => ret_arr.push(doc.data()))
-    );
+    const values = await getDocs(data_ref);
+
+    values.forEach((doc) => ret_arr.push(doc.data()));
 
     return ret_arr;
   }
@@ -400,19 +400,18 @@ export class DevDaemonDBController {
     }
 
     //Teamに所属するメンバーデータ(document)をすべて削除する = collectionを削除する
-    getDocs(
+    const values = await getDocs(
       collection(this.db, this.team_data_ref.path, "users").withConverter(
         user_data_in_team_converter
       )
-    ).then((values) =>
-      values.forEach((v) => {
-        //ユーザに関連付けられたチーム参加情報を削除する
-        deleteDoc(v.data().path);
-
-        //メンバー情報を削除する
-        deleteDoc(v.ref);
-      })
     );
+    values.forEach((v) => {
+      //ユーザに関連付けられたチーム参加情報を削除する
+      deleteDoc(v.data().path);
+
+      //メンバー情報を削除する
+      deleteDoc(v.ref);
+    });
 
     //Teamデータ(document)を削除する
     deleteDoc(this.team_data_ref).then(() => {
