@@ -2,12 +2,13 @@ import React from "react";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { firebaseConfig } from "./FirebaseConfig.local";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import FormBox from "./FormBox";
 import Button from "./Button";
 import "./Login.css";
 
 function Login() {
+  const history = useHistory();
   const handleSubmit = (event) => {
     event.preventDefault();
     const { email, password } = event.target.elements;
@@ -18,6 +19,7 @@ function Login() {
       .then((userCredential) => {
         // console.log("sign in");
         // console.log(user);
+        history.push("/checkstatus");
       })
       .catch((error) => {
         const errorCode = error.code;

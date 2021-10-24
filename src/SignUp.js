@@ -2,11 +2,13 @@ import React from "react";
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { firebaseConfig } from "./FirebaseConfig.local";
+import { useHistory } from "react-router-dom";
 import FormBox from "./FormBox";
 import Button from "./Button";
 import "./SignUp.css";
 
 function SignUp() {
+  const history = useHistory();
   const handleSubmit = (event) => {
     event.preventDefault();
     const { email, password } = event.target.elements;
@@ -19,6 +21,7 @@ function SignUp() {
         // const user = userCredential.user;
         console.log("Signed in");
         // console.log(user);
+        history.push("/checkstatus");
       })
       .catch((error) => {
         alert("アカウントを作れませんでした");
