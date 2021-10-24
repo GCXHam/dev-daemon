@@ -1,0 +1,17 @@
+.login-style {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(30px + 2vmin);
+}
+
+.create-account {
+  color: rgb(50, 50, 50);
+  font-size: 20px;
+  transition: all 0.15s ease-out;
+}
+
+.create-account:hover {
+  color: rgb(220, 25, 25);
+}

@@ -1,0 +1,40 @@
+.button-style {
+  margin: 10px auto;
+  padding: 5px;
+  box-shadow: 0px 0px 5px rgb(127, 127, 127);
+  border-radius: 8px;
+  border: none;
+  font-size: 20px;
+}
+
+.button-style:hover {
+  -webkit-transform: scale(1.1, 1.1);
+  -moz-transform: scale(1.15, 1.15);
+  -o-transform: scale(1.15, 1.15);
+  -ms-transform: scale(1.15, 1.15);
+  transform: scale(1.15, 1.15);
+}
+
+.medium-size {
+  width: 300px;
+}
+
+.small-size {
+  width: 100px;
+}
+
+.text-dark {
+  color: rgb(50, 50, 50);
+}
+
+.text-white {
+  color: rgb(255, 255, 255);
+}
+
+.bg-green {
+  background-color: rgb(17, 112, 45);
+}
+
+.bg-yellow {
+  background-color: rgb(255, 235, 124);
+}
