@@ -206,7 +206,7 @@ export class DevDaemonDBController {
     team_id: string,
     user_id: string
   ): DocumentReference<UserDataInTeam> {
-    return doc(this.db, "/teams", team_id, "users", user_id).withConverter(
+    return doc(this.db, "/teams/" + team_id + "/users", user_id).withConverter(
       user_data_in_team_converter
     );
   }
@@ -236,7 +236,7 @@ export class DevDaemonDBController {
   public async setUserID(id: string) {
     const data_ref = this.getUserDataMasterRef(id);
 
-    const docSnap = await getDoc(data_ref).catch(e => {
+    const docSnap = await getDoc(data_ref).catch((e) => {
       console.error("Error has occured : ", e);
       throw e;
     });
@@ -263,7 +263,7 @@ export class DevDaemonDBController {
   public async setTeamID(id: string) {
     const data_ref = this.getTeamDataRef(id);
 
-    const docSnap = await getDoc(data_ref).catch(e => {
+    const docSnap = await getDoc(data_ref).catch((e) => {
       console.error("Error has occured : ", e);
       throw e;
     });
@@ -344,6 +344,7 @@ export class DevDaemonDBController {
       state: value,
       lastUpdate: new Date(),
     });
+
     updateDoc(this.team_data_ref, { lastUpdate: new Date() });
   }
   //#endregion
@@ -359,6 +360,7 @@ export class DevDaemonDBController {
       this.userID
     );
     setDoc(newTeamDataRef, config);
+
     /*setDoc(userDataInNewTeamRef, {
       path: this.user_data_master_ref?.path ?? "",
       displayName: this.user_data_cache?.defaultDisplayName ?? this.userID,
