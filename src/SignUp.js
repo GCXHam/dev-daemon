@@ -1,13 +1,37 @@
 import React from "react";
+import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { firebaseConfig } from "./FirebaseConfig.local";
 import FormBox from "./FormBox";
 import Button from "./Button";
 import "./SignUp.css";
 
 function SignUp() {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const { email, password } = event.target.elements;
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+
+    createUserWithEmailAndPassword(auth, email.value, password.value)
+      .then((userCredential) => {
+        // Signed in
+        // const user = userCredential.user;
+        console.log("Signed in");
+        // console.log(user);
+      })
+      .catch((error) => {
+        alert("アカウントを作れませんでした");
+        // console.log("Sign up error");
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+      });
+  };
+
   return (
     <div className="signup-style">
       <h4>アカウント作成</h4>
-      <form>
+      <form onSubmit={handleSubmit}>
         <FormBox name="user" type="text" placeholder="ユーザー名" />
         <FormBox name="email" type="email" placeholder="メールアドレス" />
         <FormBox name="password" type="password" placeholder="パスワード" />
