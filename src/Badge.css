@@ -1,0 +1,22 @@
+.badge-style {
+  margin: 10px auto;
+  padding: 5px;
+  width: 100px;
+  border-radius: 15px;
+}
+
+.text-dark {
+  color: rgb(50, 50, 50);
+}
+
+.text-white {
+  color: rgb(255, 255, 255);
+}
+
+.bg-green {
+  background-color: rgb(17, 112, 45);
+}
+
+.bg-yellow {
+  background-color: rgb(255, 235, 124);
+}
