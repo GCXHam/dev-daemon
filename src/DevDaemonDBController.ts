@@ -300,9 +300,6 @@ export class DevDaemonDBController {
           if (data?.State != null && data?.DisplayName != null)
             states[data.DisplayName] = data.State;
         });
-
-        //DEBUG
-        console.debug("Current data: ", states);
       }
     );
   }
