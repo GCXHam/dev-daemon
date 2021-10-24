@@ -1,13 +1,7 @@
 import React from "react";
 import "./CheckStatus.css";
 import Button from "./Button";
-
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>,
-//   document.getElementById("root")
-// );
+import Badge from "./Badge";
 
 function CheckStatus() {
   return (
@@ -15,6 +9,14 @@ function CheckStatus() {
     <div>
       <header>
         <h1>開発を見守る</h1>
+        <nav id="right">
+          <Button
+            title="ログアウト"
+            button_size="medium-size"
+            text_color="text-white"
+            bg_color="bg-green"
+          />
+        </nav>
       </header>
       <div id="wrapper">
         {/* 左画面のステータス確認表示 */}
@@ -27,25 +29,35 @@ function CheckStatus() {
                 <Button
                   title="アクティブ"
                   button_size="small-size"
-                  text_color="text-white"
-                  text_color="bg-yellow"
+                  text_color="text-dark"
+                  bg_color="bg-yellow"
                 />
                 <Button
                   title="離席中"
                   button_size="small-size"
                   text_color="text-white"
-                  text_color="bg-green"
+                  bg_color="bg-green"
                 />
               </div>
             </div>
             <div class="box">
               <h2>チーム名：</h2>
               <ul>
-                <li>AAA</li>
-                <li>BBB</li>
-                <li>CCC</li>
+                <li>
+                  <p>AAA</p>
+                  <Badge title="離席中" text_color="text-white" bg_color="bg-green" />
+                </li>
+                <li>
+                  <p>AAA</p>
+                  <Badge title="アクティブ" text_color="text-dark" bg_color="bg-yellow" />
+                </li>
+                <li>
+                  <p>AAA</p>
+                  <Badge title="アクティブ" text_color="text-dark" bg_color="bg-yellow" />
+                </li>
               </ul>
             </div>
+            
           </section>
         </div>
 
