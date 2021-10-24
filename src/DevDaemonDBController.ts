@@ -359,8 +359,8 @@ export class DevDaemonDBController {
       team_id,
       this.userID
     );
-    setDoc(newTeamDataRef, config);
 
+    await setDoc(newTeamDataRef, config);
     /*setDoc(userDataInNewTeamRef, {
       path: this.user_data_master_ref?.path ?? "",
       displayName: this.user_data_cache?.defaultDisplayName ?? this.userID,
@@ -368,7 +368,7 @@ export class DevDaemonDBController {
       state: "Working",
       lastUpdate: new Date()
     });*/
-    this.addMemberToTeam(this.userID, team_id, true);
+    await this.addMemberToTeam(this.userID, team_id, true);
 
     this.team_data_ref = newTeamDataRef;
     this.user_data_in_team_ref = userDataInNewTeamRef;
@@ -455,21 +455,23 @@ export class DevDaemonDBController {
       await getDoc(this.getUserDataMasterRef(user_id))
     ).data();
 
-    //ユーザをチームに追加する
-    setDoc(userInTeamRef, {
-      path: user_id_ref,
-      displayName: user_data_master?.defaultDisplayName ?? user_id,
-      isAdmin: isAdmin,
-      state: STATE_LEAVING,
-      lastUpdate: new Date(),
-    });
+    await Promise.all([
+      //ユーザをチームに追加する
+      setDoc(userInTeamRef, {
+        path: user_id_ref,
+        displayName: user_data_master?.defaultDisplayName ?? user_id,
+        isAdmin: isAdmin,
+        state: STATE_LEAVING,
+        lastUpdate: new Date(),
+      }),
 
-    //ユーザのマスタデータに「チームに参加した」ことを追加する
-    setDoc(this.getTeamDataInUserRef(team_id, user_id), {
-      path: this.getTeamDataRef(team_id),
-      memo: "",
-      joinDate: new Date(),
-    });
+      //ユーザのマスタデータに「チームに参加した」ことを追加する
+      setDoc(this.getTeamDataInUserRef(team_id, user_id), {
+        path: this.getTeamDataRef(team_id),
+        memo: "",
+        joinDate: new Date(),
+      }),
+    ]);
   }
   /** 現在表示しているチームから指定のユーザを削除する */
   public async removeMemberFromCurrentTeam(user_id?: string) {
