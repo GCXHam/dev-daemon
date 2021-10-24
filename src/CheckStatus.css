@@ -15,7 +15,7 @@ header {
   z-index: 500;
 }
 header h1 {
-  color: #fff;
+  color: #f2f2f2;
   margin: 0;
   padding: 10px 0 10px 25px;
   font-size: 1.5em;
@@ -28,6 +28,7 @@ h2 {
 
 h2 {
   margin-bottom: 10px;
+  color: #404040;
 }
 #container p,
 small {
@@ -41,6 +42,7 @@ small {
 
 p {
   font-size: 1.2em;
+  color: #404040;
 }
 
 .left {
@@ -103,6 +105,7 @@ ul li {
   line-height: 1.5; /*文の行高*/
   padding: 0.5em 0; /*前後の文との余白*/
   font-size: 1.2em;
+  color:#404040;
 }
 
 /*＝＝＝＝＝＝＝＝＝＝＝768px以下の見え方＝＝＝＝＝＝＝＝＝＝＝＝＝*/

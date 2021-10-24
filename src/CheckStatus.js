@@ -22,7 +22,7 @@ function CheckStatus() {
           <section>
             <div class="box">
               <h2>マイステータス</h2>
-              <p>riko</p>
+              <p>AAA</p>
               <div class="left">
                 <Button
                   title="アクティブ"
@@ -41,9 +41,9 @@ function CheckStatus() {
             <div class="box">
               <h2>チーム名：</h2>
               <ul>
-                <li>小松</li>
-                <li>藤田</li>
-                <li>新城</li>
+                <li>AAA</li>
+                <li>BBB</li>
+                <li>CCC</li>
               </ul>
             </div>
           </section>
@@ -52,7 +52,7 @@ function CheckStatus() {
         {/* 右画面のハムスター表示 */}
         <div id="fixed-area">
           <img
-            src={`${process.env.PUBLIC_URL}/img/ezgif.com-gif-maker.png`}
+            src={`${process.env.PUBLIC_URL}/img/hamster-image.png`}
             alt=""
           />
         </div>
