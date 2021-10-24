@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import FormBox from "./FormBox";
 import Button from "./Button";
 import "./Login.css";
@@ -17,12 +18,9 @@ function Login() {
           text_color="text-white"
           bg_color="bg-green"
         />
-        <Button
-          title="新規チーム作成"
-          button_size="medium-size"
-          text_color="text-dark"
-          bg_color="bg-yellow"
-        />
+        <Link to={"/signup"} className="create-account">
+          アカウントを作成する
+        </Link>
       </form>
     </div>
   );
