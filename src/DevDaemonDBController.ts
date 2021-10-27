@@ -233,7 +233,7 @@ export class DevDaemonDBController {
     return this._user_id;
   }
   /** ログイン中のユーザのID */
-  public async setUserID(id: string) {
+  public async setUserID(id: string): Promise<void> {
     const data_ref = this.getUserDataMasterRef(id);
 
     const docSnap = await getDoc(data_ref).catch((e) => {
@@ -260,7 +260,7 @@ export class DevDaemonDBController {
     return this._team_id;
   }
   /** 現在使用中のチームのID */
-  public async setTeamID(id: string) {
+  public async setTeamID(id: string): Promise<void> {
     const data_ref = this.getTeamDataRef(id);
 
     const docSnap = await getDoc(data_ref).catch((e) => {
@@ -347,7 +347,7 @@ export class DevDaemonDBController {
   //#endregion
 
   /** 新しいチームを作成する */
-  public async createNewTeam(team_id: string, config: TeamData) {
+  public async createNewTeam(team_id: string, config: TeamData): Promise<void> {
     if (await this.isTeamIDAlreadyExists(team_id))
       throw new Error("TeamID (" + team_id + ") is already exist.");
 
@@ -372,7 +372,9 @@ export class DevDaemonDBController {
   }
 
   /** 現在表示しているチームを削除する (管理者のみ) */
-  public async deleteCurrentTeam(delete_even_if_not_admin = false) {
+  public async deleteCurrentTeam(
+    delete_even_if_not_admin = false
+  ): Promise<void> {
     if (this.userID == "") throw new Error("UserID was not set");
     if (this.teamID == "" || this.team_data_ref == null)
       throw new Error("Team not selected");
@@ -427,7 +429,7 @@ export class DevDaemonDBController {
     user_id: string,
     team_id?: string,
     isAdmin = false
-  ) {
+  ): Promise<void> {
     //デフォルトは現在表示しているチーム
     team_id ??= this.teamID;
 
@@ -471,7 +473,7 @@ export class DevDaemonDBController {
     ]);
   }
   /** 現在表示しているチームから指定のユーザを削除する */
-  public async removeMemberFromCurrentTeam(user_id?: string) {
+  public async removeMemberFromCurrentTeam(user_id?: string): Promise<void> {
     if (this.userID == null) throw new Error("Controller UserID not set");
     if (this.teamID == null || this.team_data_ref == null)
       throw new Error("TeamID not set");
@@ -537,7 +539,7 @@ export class DevDaemonDBController {
   public async createNewMasterUserData(
     user_id: string,
     user_data: MasterUserData
-  ) {
+  ): Promise<void> {
     if (await this.isUserIDAlreadyExists(user_id))
       throw new Error("UserID already exists");
 
