@@ -15,6 +15,7 @@ function SignUp() {
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     createUserWithEmailAndPassword(auth, email.value, password.value)
       .then((userCredential) => {
         // Signed in
@@ -29,6 +30,7 @@ function SignUp() {
         // const errorCode = error.code;
         // const errorMessage = error.message;
       });
+    /* eslint-enable @typescript-eslint/no-unused-vars */
   };
 
   return (
