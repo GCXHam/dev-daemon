@@ -13,7 +13,7 @@ function SignUp() {
     event.preventDefault();
     const { email, password } = event.target.elements;
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
+    const auth = getAuth(app);
 
     createUserWithEmailAndPassword(auth, email.value, password.value)
       .then((userCredential) => {
