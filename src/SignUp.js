@@ -1,7 +1,7 @@
 import React from "react";
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { firebaseConfig } from "./FirebaseConfig.local";
+import { firebaseConfig } from "./FirebaseConfig";
 import { useHistory } from "react-router-dom";
 import FormBox from "./FormBox";
 import Button from "./Button";
