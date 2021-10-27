@@ -14,7 +14,8 @@ function Login() {
     const { email, password } = event.target.elements;
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
+    const auth = getAuth(app);
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     signInWithEmailAndPassword(auth, email.value, password.value)
       .then((userCredential) => {
         // console.log("sign in");
@@ -26,6 +27,7 @@ function Login() {
         const errorMessage = error.message;
         alert("ログインに失敗しました");
       });
+    /* eslint-enable @typescript-eslint/no-unused-vars */
   };
 
   return (
