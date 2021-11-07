@@ -279,7 +279,9 @@ export class DevDaemonDBController {
     //TODO
 
     //既に購読していたら, 一度購読解除する
-    if (this.unsubscribe_team_data != null) this.unsubscribe_team_data();
+    if (this.unsubscribe_team_data != null) {
+      this.unsubscribe_team_data();
+    }
 
     //teamIDを更新
     this._team_id = id;
@@ -297,8 +299,9 @@ export class DevDaemonDBController {
         //各員のStateを取得
         doc.forEach((d) => {
           const data = d.data();
-          if (data?.State != null && data?.DisplayName != null)
+          if (data?.State != null && data?.DisplayName != null) {
             states[data.DisplayName] = data.State;
+          }
         });
       }
     );
@@ -307,7 +310,9 @@ export class DevDaemonDBController {
 
   /** 自身が所属するチームのリストを取得する */
   public async getJoiningTeamList(): Promise<TeamDataInUser[]> {
-    if (this.user_data_master_ref == null) throw new Error("UserID is not set");
+    if (this.user_data_master_ref == null) {
+      throw new Error("UserID is not set");
+    }
 
     const data_ref = collection(
       this.db,
@@ -327,15 +332,17 @@ export class DevDaemonDBController {
   //#region  Property: myState
   /** 自身の状態 (Working/Leavingなど) */
   public async getMyState(): Promise<string> {
-    if (this.user_data_in_team_ref == null)
+    if (this.user_data_in_team_ref == null) {
       throw new Error("TeamID is not set");
+    }
 
     return (await getDoc(this.user_data_in_team_ref)).data()?.state ?? "";
   }
   /** 自身の状態 (Working/Leavingなど) */
   public set myState(value: string) {
-    if (this.team_data_ref == null || this.user_data_in_team_ref == null)
+    if (this.team_data_ref == null || this.user_data_in_team_ref == null) {
       throw new Error("TeamID is not set");
+    }
 
     updateDoc(this.user_data_in_team_ref, {
       state: value,
@@ -348,8 +355,9 @@ export class DevDaemonDBController {
 
   /** 新しいチームを作成する */
   public async createNewTeam(team_id: string, config: TeamData): Promise<void> {
-    if (await this.isTeamIDAlreadyExists(team_id))
+    if (await this.isTeamIDAlreadyExists(team_id)) {
       throw new Error("TeamID (" + team_id + ") is already exist.");
+    }
 
     const newTeamDataRef = this.getTeamDataRef(team_id);
     const userDataInNewTeamRef = this.getUserDataInTeamRef(
@@ -375,9 +383,13 @@ export class DevDaemonDBController {
   public async deleteCurrentTeam(
     delete_even_if_not_admin = false
   ): Promise<void> {
-    if (this.userID == "") throw new Error("UserID was not set");
-    if (this.teamID == "" || this.team_data_ref == null)
+    if (this.userID == "") {
+      throw new Error("UserID was not set");
+    }
+
+    if (this.teamID == "" || this.team_data_ref == null) {
       throw new Error("Team not selected");
+    }
 
     if (this.user_data_in_team_ref == null) {
       // NULL合体代入演算子を使用すると Unexpected tokenと言われてしまうため, この方式を取る
@@ -439,20 +451,27 @@ export class DevDaemonDBController {
     }
 
     //引数のバリデーション
-    if (team_id == null) throw new Error("Team ID was not set");
-    if (user_id == null) throw new Error("User ID was not set");
+    if (team_id == null) {
+      throw new Error("Team ID was not set");
+    }
+    if (user_id == null) {
+      throw new Error("User ID was not set");
+    }
 
     //IDがデータベースに存在するか確認
     const user_id_ref = this.getUserDataMasterRef(user_id);
-    if (!(await this.isDocumentAlreadyExists(user_id_ref)))
+    if (!(await this.isDocumentAlreadyExists(user_id_ref))) {
       throw new Error("UserID was not found in the DB");
-    if (!(await this.isTeamIDAlreadyExists(team_id)))
+    }
+    if (!(await this.isTeamIDAlreadyExists(team_id))) {
       throw new Error("TeamID was not found in the DB");
+    }
 
     //ユーザが既にチームに所属していないかを確認
     const userInTeamRef = this.getUserDataInTeamRef(team_id, user_id);
-    if (await this.isDocumentAlreadyExists(userInTeamRef))
+    if (await this.isDocumentAlreadyExists(userInTeamRef)) {
       throw new Error("User is already in the Team");
+    }
 
     //ユーザデータのマスタデータを取得する
     const user_data_master = (
@@ -479,9 +498,12 @@ export class DevDaemonDBController {
   }
   /** 現在表示しているチームから指定のユーザを削除する */
   public async removeMemberFromCurrentTeam(user_id?: string): Promise<void> {
-    if (this.userID == null) throw new Error("Controller UserID not set");
-    if (this.teamID == null || this.team_data_ref == null)
+    if (this.userID == null) {
+      throw new Error("Controller UserID not set");
+    }
+    if (this.teamID == null || this.team_data_ref == null) {
       throw new Error("TeamID not set");
+    }
 
     //デフォルトでは自身を削除する
     if (user_id == null) {
@@ -494,11 +516,12 @@ export class DevDaemonDBController {
         !(
           await getDoc(
             this.user_data_in_team_ref ??
-              this.getUserDataInTeamRef(this.teamID, this.userID)
+            this.getUserDataInTeamRef(this.teamID, this.userID)
           )
         ).data()?.isAdmin
-      )
+      ) {
         throw new Error("Permission Denied");
+      }
 
     //最後の一人であれば「チームの削除」を行う
     const users_arr = await getDocs(
@@ -547,8 +570,9 @@ export class DevDaemonDBController {
     user_id: string,
     user_data: MasterUserData
   ): Promise<void> {
-    if (await this.isUserIDAlreadyExists(user_id))
+    if (await this.isUserIDAlreadyExists(user_id)) {
       throw new Error("UserID already exists");
+    }
 
     const doc_ref = this.getUserDataMasterRef(user_id);
     await setDoc(doc_ref, user_data);
