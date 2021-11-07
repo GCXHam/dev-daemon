@@ -379,10 +379,13 @@ export class DevDaemonDBController {
     if (this.teamID == "" || this.team_data_ref == null)
       throw new Error("Team not selected");
 
-    this.user_data_in_team_ref ??= this.getUserDataInTeamRef(
-      this.teamID,
-      this.userID
-    );
+    if (this.user_data_in_team_ref == null) {
+      // NULL合体代入演算子を使用すると Unexpected tokenと言われてしまうため, この方式を取る
+      this.user_data_in_team_ref = this.getUserDataInTeamRef(
+        this.teamID,
+        this.userID
+      );
+    }
 
     //ユーザがTeamに所属しているかを確認 => 所属していなければ削除できない
     const userDataInTeam = await getDoc(this.user_data_in_team_ref);
@@ -431,7 +434,9 @@ export class DevDaemonDBController {
     isAdmin = false
   ): Promise<void> {
     //デフォルトは現在表示しているチーム
-    team_id ??= this.teamID;
+    if (team_id == null) {
+      team_id = this.teamID;
+    }
 
     //引数のバリデーション
     if (team_id == null) throw new Error("Team ID was not set");
@@ -479,7 +484,9 @@ export class DevDaemonDBController {
       throw new Error("TeamID not set");
 
     //デフォルトでは自身を削除する
-    user_id ??= this.userID;
+    if (user_id == null) {
+      user_id = this.userID;
+    }
 
     //自身を削除するわけではないのであれば, 管理者権限が必要
     if (user_id != this.userID)
