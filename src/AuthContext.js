@@ -11,9 +11,11 @@ export function useAuthContext() {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState("");
+  let db_ctrler = "";
 
   const value = {
     user,
+    db_ctrler,
   };
 
   useEffect(() => {
