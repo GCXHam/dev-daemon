@@ -1,10 +1,10 @@
 import React from "react";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseConfig } from "./FirebaseConfig";
+import { firebaseConfig } from "../FirebaseConfig";
 import { Link, useHistory } from "react-router-dom";
-import FormBox from "./FormBox";
-import Button from "./Button";
+import FormBox from "../components/FormBox";
+import Button from "../components/Button";
 import "./Login.css";
 
 function Login() {

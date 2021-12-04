@@ -1,6 +1,6 @@
-import { DevDaemonDBController } from "../src/DevDaemonDBController";
+import { DevDaemonDBController } from "../DevDaemonDBController";
 import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "../FirebaseConfig.local";
+import { firebaseConfig } from "../FirebaseConfig";
 
 const app = initializeApp(firebaseConfig);
 

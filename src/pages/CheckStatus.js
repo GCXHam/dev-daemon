@@ -1,7 +1,7 @@
 import React from "react";
 import "./CheckStatus.css";
-import Button from "./Button";
-import Badge from "./Badge";
+import Button from "../components/Button";
+import Badge from "../components/Badge";
 
 function CheckStatus() {
   return (

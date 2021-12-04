@@ -15,7 +15,7 @@
     "test": "react-scripts test",
     "jest": "jest",
     "eject": "react-scripts eject",
-    "lint": "eslint './src/**/*.js' './src/**/*.ts' './__tests__/**/*.ts' './*.ts'",
+    "lint": "eslint './src/**/*.js' './src/**/*.ts' './*.ts'",
     "prettier": "prettier --write ."
   },
   "eslintConfig": {
