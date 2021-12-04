@@ -1,29 +1,40 @@
 import React from "react";
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { DevDaemonDBController } from "./DevDaemonDBController.ts";
 import { firebaseConfig } from "./FirebaseConfig";
+import { useAuthContext } from "./AuthContext";
 import { useHistory } from "react-router-dom";
 import FormBox from "./FormBox";
 import Button from "./Button";
 import "./SignUp.css";
 
 function SignUp() {
+  let { db_ctrler } = useAuthContext();
   const history = useHistory();
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { email, password } = event.target.elements;
+    const { user, email, password } = event.target.elements;
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const defaultSignUpTransaction = (userCredential) => {
+      // Signed in
+      db_ctrler = new DevDaemonDBController(app);
+      const user_info = userCredential.user;
+
+      console.log("Signed in");
+      // console.log(user);
+      db_ctrler.createNewMasterUserData(user_info.uid, {
+        defaultDisplayName: user.value,
+        defaultIconURL: "http://www.w3.org/2000/svg",
+        lastUpdate: new Date(),
+      });
+      history.push("/checkstatus");
+    };
 
     /* eslint-disable @typescript-eslint/no-unused-vars */
     createUserWithEmailAndPassword(auth, email.value, password.value)
-      .then((userCredential) => {
-        // Signed in
-        // const user = userCredential.user;
-        console.log("Signed in");
-        // console.log(user);
-        history.push("/checkstatus");
-      })
+      .then(defaultSignUpTransaction)
       .catch((error) => {
         alert("アカウントを作れませんでした");
         // console.log("Sign up error");
