@@ -13,7 +13,9 @@ function Login(): JSX.Element {
   const [password, setPassword] = useState("");
 
   const history = useHistory();
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (
+    event: FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
 
     const app = initializeApp(firebaseConfig);
@@ -37,9 +39,24 @@ function Login(): JSX.Element {
     <div className="login-style">
       <h1>開発を見守る</h1>
       <form onSubmit={handleSubmit}>
-        <FormBox name="team" type="text" placeholder="チーム名" onChange={setTeamName} />
-        <FormBox name="email" type="email" placeholder="メールアドレス" onChange={setEmail} />
-        <FormBox name="password" type="password" placeholder="パスワード" onChange={setPassword} />
+        <FormBox
+          name="team"
+          type="text"
+          placeholder="チーム名"
+          onChange={setTeamName}
+        />
+        <FormBox
+          name="email"
+          type="email"
+          placeholder="メールアドレス"
+          onChange={setEmail}
+        />
+        <FormBox
+          name="password"
+          type="password"
+          placeholder="パスワード"
+          onChange={setPassword}
+        />
         <Button
           title="ログイン"
           button_size="medium-size"

@@ -1,6 +1,10 @@
 import React, { FormEvent, FormEventHandler, useState } from "react";
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  UserCredential,
+} from "firebase/auth";
 import { DevDaemonDBController } from "../DevDaemonDBController";
 import { firebaseConfig } from "../FirebaseConfig";
 import { useAuthContext } from "../AuthContext";
@@ -18,7 +22,9 @@ function SignUp(): JSX.Element {
 
   const history = useHistory();
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (
+    event: FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
@@ -54,9 +60,24 @@ function SignUp(): JSX.Element {
     <div className="signup-style">
       <h4>アカウント作成</h4>
       <form onSubmit={handleSubmit}>
-        <FormBox name="user" type="text" placeholder="ユーザー名" onChange={setUserName} />
-        <FormBox name="email" type="email" placeholder="メールアドレス" onChange={setEmail} />
-        <FormBox name="password" type="password" placeholder="パスワード" onChange={setPassword} />
+        <FormBox
+          name="user"
+          type="text"
+          placeholder="ユーザー名"
+          onChange={setUserName}
+        />
+        <FormBox
+          name="email"
+          type="email"
+          placeholder="メールアドレス"
+          onChange={setEmail}
+        />
+        <FormBox
+          name="password"
+          type="password"
+          placeholder="パスワード"
+          onChange={setPassword}
+        />
         <Button
           title="新規チーム作成"
           button_size="medium-size"

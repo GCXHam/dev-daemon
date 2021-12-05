@@ -5,13 +5,13 @@ import { firebaseConfig } from "./FirebaseConfig";
 import { DevDaemonDBController } from "./DevDaemonDBController";
 
 interface AuthContextValue {
-  user: User | undefined,
-  db_ctrler: DevDaemonDBController | undefined,
+  user: User | undefined;
+  db_ctrler: DevDaemonDBController | undefined;
 }
 
 const AUTH_CONTEXT_DEFAULT_VALUE: AuthContextValue = {
   user: undefined,
-  db_ctrler: undefined
+  db_ctrler: undefined,
 };
 
 const AuthContext = createContext(AUTH_CONTEXT_DEFAULT_VALUE);
@@ -20,7 +20,11 @@ export function useAuthContext(): AuthContextValue {
   return useContext(AuthContext);
 }
 
-export function AuthProvider({ children }: { children: JSX.Element }): JSX.Element {
+export function AuthProvider({
+  children,
+}: {
+  children: JSX.Element;
+}): JSX.Element {
   const [user, setUser] = useState<User>();
   const [db_ctrler, setDBCtrler] = useState<DevDaemonDBController>();
 

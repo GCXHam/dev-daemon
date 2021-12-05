@@ -516,7 +516,7 @@ export class DevDaemonDBController {
         !(
           await getDoc(
             this.user_data_in_team_ref ??
-            this.getUserDataInTeamRef(this.teamID, this.userID)
+              this.getUserDataInTeamRef(this.teamID, this.userID)
           )
         ).data()?.isAdmin
       ) {

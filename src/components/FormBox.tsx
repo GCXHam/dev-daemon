@@ -1,7 +1,12 @@
 import React, { Dispatch, SetStateAction } from "react";
 import "./FormBox.css";
 
-function FormBox(props: { name: string, type: string, placeholder: string, onChange: Dispatch<SetStateAction<string>> }): JSX.Element {
+function FormBox(props: {
+  name: string;
+  type: string;
+  placeholder: string;
+  onChange: Dispatch<SetStateAction<string>>;
+}): JSX.Element {
   return (
     <div>
       <input

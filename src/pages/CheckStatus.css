@@ -20,7 +20,7 @@ header h1 {
   color: #f2f2f2;
   margin: 0;
   padding: 10px 0 10px 25px;
-  font-size: 2.0em;
+  font-size: 2em;
 }
 
 h2 {
@@ -47,8 +47,8 @@ p {
   display: flex;
 }
 
-.left div{
-  margin:0 30px 0 0;
+.left div {
+  margin: 0 30px 0 0;
 }
 
 /*ログアウトボタンを右寄せにするため*/
@@ -112,10 +112,9 @@ ul li {
   line-height: 1.5; /*文の行高*/
   padding: 0.5em 0; /*前後の文との余白*/
   font-size: 1.2em;
-  color:#404040;
+  color: #404040;
   border-bottom: 2px solid white;
 }
-
 
 /*＝＝＝＝＝＝＝＝＝＝＝768px以下の見え方＝＝＝＝＝＝＝＝＝＝＝＝＝*/
 
@@ -136,16 +135,15 @@ ul li {
   #container {
     width: 100%; /*横幅を100%にして1列に見せる*/
   }
-
 }
 
 @media screen and (max-width: 1160px) {
-  .left{
-    display:flex;
+  .left {
+    display: flex;
     flex-flow: column;
   }
 
-  .left div{
+  .left div {
     margin-left: 20px;
   }
   section {

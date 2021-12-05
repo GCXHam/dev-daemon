@@ -4,11 +4,10 @@
 #ref : https://zenn.dev/odan/scraps/81b2738864a908
 
 name: Deploy to Firebase Hosting (Preview Channel) on PR
-on:
- pull_request
+on: pull_request
 jobs:
   build_and_preview:
-    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+    if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
 
     runs-on: ubuntu-latest
 
@@ -37,7 +36,7 @@ jobs:
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TR_DEV_DAEMON }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_TR_DEV_DAEMON }}"
           projectId: tr-dev-daemon
-          channelId: '${{ github.event.number }}'
+          channelId: "${{ github.event.number }}"
