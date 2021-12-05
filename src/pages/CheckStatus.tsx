@@ -3,7 +3,7 @@ import "./CheckStatus.css";
 import Button from "../components/Button";
 import Badge from "../components/Badge";
 
-function CheckStatus() {
+function CheckStatus(): JSX.Element {
   return (
     // TODO: if `react-router-dom` is installed, insert `Link` tag.
     <div>
@@ -22,10 +22,10 @@ function CheckStatus() {
         {/* 左画面のステータス確認表示 */}
         <div id="container">
           <section>
-            <div class="box">
+            <div className="box">
               <h2>マイステータス</h2>
               <p>AAA</p>
-              <div class="left">
+              <div className="left">
                 <Button
                   title="アクティブ"
                   button_size="small-size"
@@ -40,7 +40,7 @@ function CheckStatus() {
                 />
               </div>
             </div>
-            <div class="box">
+            <div className="box">
               <h2>チーム名：</h2>
               <ul>
                 <li>
@@ -57,7 +57,7 @@ function CheckStatus() {
                 </li>
               </ul>
             </div>
-            
+
           </section>
         </div>
 

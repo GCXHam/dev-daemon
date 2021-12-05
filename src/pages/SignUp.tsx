@@ -1,7 +1,7 @@
-import React from "react";
+import React, { FormEvent, FormEventHandler, useState } from "react";
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { DevDaemonDBController } from "../DevDaemonDBController.ts";
+import { getAuth, createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
+import { DevDaemonDBController } from "../DevDaemonDBController";
 import { firebaseConfig } from "../FirebaseConfig";
 import { useAuthContext } from "../AuthContext";
 import { useHistory } from "react-router-dom";
@@ -9,15 +9,21 @@ import FormBox from "../components/FormBox";
 import Button from "../components/Button";
 import "./SignUp.css";
 
-function SignUp() {
+function SignUp(): JSX.Element {
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   let { db_ctrler } = useAuthContext();
+
   const history = useHistory();
-  const handleSubmit = (event) => {
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { user, email, password } = event.target.elements;
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    const defaultSignUpTransaction = (userCredential) => {
+
+    const defaultSignUpTransaction = (userCredential: UserCredential) => {
       // Signed in
       db_ctrler = new DevDaemonDBController(app);
       const user_info = userCredential.user;
@@ -25,7 +31,7 @@ function SignUp() {
       console.log("Signed in");
       // console.log(user);
       db_ctrler.createNewMasterUserData(user_info.uid, {
-        defaultDisplayName: user.value,
+        defaultDisplayName: userName,
         defaultIconURL: "http://www.w3.org/2000/svg",
         lastUpdate: new Date(),
       });
@@ -33,7 +39,7 @@ function SignUp() {
     };
 
     /* eslint-disable @typescript-eslint/no-unused-vars */
-    createUserWithEmailAndPassword(auth, email.value, password.value)
+    createUserWithEmailAndPassword(auth, email, password)
       .then(defaultSignUpTransaction)
       .catch((error) => {
         alert("アカウントを作れませんでした");
@@ -48,9 +54,9 @@ function SignUp() {
     <div className="signup-style">
       <h4>アカウント作成</h4>
       <form onSubmit={handleSubmit}>
-        <FormBox name="user" type="text" placeholder="ユーザー名" />
-        <FormBox name="email" type="email" placeholder="メールアドレス" />
-        <FormBox name="password" type="password" placeholder="パスワード" />
+        <FormBox name="user" type="text" placeholder="ユーザー名" onChange={setUserName} />
+        <FormBox name="email" type="email" placeholder="メールアドレス" onChange={setEmail} />
+        <FormBox name="password" type="password" placeholder="パスワード" onChange={setPassword} />
         <Button
           title="新規チーム作成"
           button_size="medium-size"

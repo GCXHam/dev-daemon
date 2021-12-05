@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FormEvent, FormEventHandler, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { firebaseConfig } from "../FirebaseConfig";
@@ -7,16 +7,19 @@ import FormBox from "../components/FormBox";
 import Button from "../components/Button";
 import "./Login.css";
 
-function Login() {
+function Login(): JSX.Element {
+  const [teamName, setTeamName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const history = useHistory();
-  const handleSubmit = (event) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { email, password } = event.target.elements;
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     /* eslint-disable @typescript-eslint/no-unused-vars */
-    signInWithEmailAndPassword(auth, email.value, password.value)
+    signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // console.log("sign in");
         // console.log(user);
@@ -34,9 +37,9 @@ function Login() {
     <div className="login-style">
       <h1>開発を見守る</h1>
       <form onSubmit={handleSubmit}>
-        <FormBox name="team" type="text" placeholder="チーム名" />
-        <FormBox name="email" type="email" placeholder="メールアドレス" />
-        <FormBox name="password" type="password" placeholder="パスワード" />
+        <FormBox name="team" type="text" placeholder="チーム名" onChange={setTeamName} />
+        <FormBox name="email" type="email" placeholder="メールアドレス" onChange={setEmail} />
+        <FormBox name="password" type="password" placeholder="パスワード" onChange={setPassword} />
         <Button
           title="ログイン"
           button_size="medium-size"

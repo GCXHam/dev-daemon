@@ -1,16 +1,17 @@
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext, useEffect, Provider } from "react";
 import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import { firebaseConfig } from "./FirebaseConfig";
+import { DevDaemonDBController } from "./DevDaemonDBController";
 
-const AuthContext = createContext();
+const AuthContext = createContext({});
 
-export function useAuthContext() {
+export function useAuthContext(): any {
   return useContext(AuthContext);
 }
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState("");
+export function AuthProvider({ children }: { children: JSX.Element }): JSX.Element {
+  const [user, setUser] = useState<User>();
   let db_ctrler = "";
 
   const value = {

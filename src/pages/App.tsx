@@ -4,7 +4,7 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 import CheckStatus from "./CheckStatus";
 
-function App() {
+function App(): JSX.Element {
   return (
     <AuthProvider>
       <Router>
