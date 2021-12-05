@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { AuthProvider } from "./AuthContext";
+import { AuthProvider } from "../AuthContext";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import CheckStatus from "./CheckStatus";
