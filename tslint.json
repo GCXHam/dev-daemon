@@ -1,7 +1,13 @@
 {
   "defaultSeverity": "error",
   "extends": [],
-  "jsRules": {},
-  "rules": {},
+  "jsRules": {
+    "no-construct": true,
+    "no-var-keyword": false
+  },
+  "rules": {
+    "no-var-keyword": false,
+    "class-name": true
+  },
   "rulesDirectory": []
 }
