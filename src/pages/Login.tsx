@@ -20,19 +20,15 @@ function Login(): JSX.Element {
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    /* eslint-disable @typescript-eslint/no-unused-vars */
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // console.log("sign in");
-        // console.log(user);
+      .then(() => {
         history.push("/checkstatus");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        alert("ログインに失敗しました");
+        alert(`ログインに失敗しました (Code:${errorCode})\n${errorMessage}`);
       });
-    /* eslint-enable @typescript-eslint/no-unused-vars */
   };
 
   return (

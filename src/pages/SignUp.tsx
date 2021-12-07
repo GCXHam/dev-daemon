@@ -34,8 +34,6 @@ function SignUp(): JSX.Element {
       db_ctrler = new DevDaemonDBController(app);
       const user_info = userCredential.user;
 
-      console.log("Signed in");
-      // console.log(user);
       db_ctrler.createNewMasterUserData(user_info.uid, {
         defaultDisplayName: userName,
         defaultIconURL: "http://www.w3.org/2000/svg",
@@ -44,16 +42,11 @@ function SignUp(): JSX.Element {
       history.push("/checkstatus");
     };
 
-    /* eslint-disable @typescript-eslint/no-unused-vars */
     createUserWithEmailAndPassword(auth, email, password)
       .then(defaultSignUpTransaction)
       .catch((error) => {
-        alert("アカウントを作れませんでした");
-        // console.log("Sign up error");
-        // const errorCode = error.code;
-        // const errorMessage = error.message;
+        alert(`アカウントを作れませんでした (Code:${error.code})\n${error.message}`);
       });
-    /* eslint-enable @typescript-eslint/no-unused-vars */
   };
 
   return (
