@@ -5,12 +5,12 @@ import { firebaseConfig } from "./FirebaseConfig";
 import { DevDaemonDBController } from "./DevDaemonDBController";
 
 interface AuthContextValue {
-  user: User | undefined;
+  user: User | null;
   db_ctrler: DevDaemonDBController | undefined;
 }
 
 const AUTH_CONTEXT_DEFAULT_VALUE: AuthContextValue = {
-  user: undefined,
+  user: null,
   db_ctrler: undefined,
 };
 
@@ -25,7 +25,7 @@ export function AuthProvider({
 }: {
   children: JSX.Element;
 }): JSX.Element {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | null>(null);
   const [db_ctrler, setDBCtrler] = useState<DevDaemonDBController>();
 
   const value = {
@@ -37,13 +37,8 @@ export function AuthProvider({
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const unsubscribed = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // const uid = user.uid;
-        // console.log(user);
-        setUser(user);
-      } else {
-        // User is signed out
-      }
+      // サインイン時にはuserにユーザ情報が入り, サインアウト時にはnullが入る
+      setUser(user);
     });
     return () => {
       unsubscribed();
