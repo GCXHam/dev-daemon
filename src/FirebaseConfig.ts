@@ -1,4 +1,6 @@
-export const firebaseConfig = {
+import { FirebaseOptions } from "@firebase/app";
+
+export const firebaseConfig: FirebaseOptions = {
   apiKey: "AIzaSyCDGk6TE7edA1Fu0Hh6UmN77d6wUKUc4qI",
   authDomain: "tr-dev-daemon.firebaseapp.com",
   databaseURL: "https://tr-dev-daemon-default-rtdb.firebaseio.com",

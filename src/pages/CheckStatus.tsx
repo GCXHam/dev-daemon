@@ -3,7 +3,7 @@ import "./CheckStatus.css";
 import Button from "../components/Button";
 import Badge from "../components/Badge";
 
-function CheckStatus() {
+function CheckStatus(): JSX.Element {
   return (
     // TODO: if `react-router-dom` is installed, insert `Link` tag.
     <div>
@@ -22,10 +22,10 @@ function CheckStatus() {
         {/* 左画面のステータス確認表示 */}
         <div id="container">
           <section>
-            <div class="box">
+            <div className="box">
               <h2>マイステータス</h2>
               <p>AAA</p>
-              <div class="left">
+              <div className="left">
                 <Button
                   title="アクティブ"
                   button_size="small-size"
@@ -40,33 +40,41 @@ function CheckStatus() {
                 />
               </div>
             </div>
-            <div class="box">
+            <div className="box">
               <h2>チーム名：</h2>
               <ul>
                 <li>
                   <p>AAA</p>
-                  <Badge title="離席中" text_color="text-white" bg_color="bg-green" />
+                  <Badge
+                    title="離席中"
+                    text_color="text-white"
+                    bg_color="bg-green"
+                  />
                 </li>
                 <li>
                   <p>AAA</p>
-                  <Badge title="アクティブ" text_color="text-dark" bg_color="bg-yellow" />
+                  <Badge
+                    title="アクティブ"
+                    text_color="text-dark"
+                    bg_color="bg-yellow"
+                  />
                 </li>
                 <li>
                   <p>AAA</p>
-                  <Badge title="アクティブ" text_color="text-dark" bg_color="bg-yellow" />
+                  <Badge
+                    title="アクティブ"
+                    text_color="text-dark"
+                    bg_color="bg-yellow"
+                  />
                 </li>
               </ul>
             </div>
-            
           </section>
         </div>
 
         {/* 右画面のハムスター表示 */}
         <div id="fixed-area">
-          <img
-            src={`${process.env.PUBLIC_URL}/img/hamster-image.png`}
-            alt=""
-          />
+          <img src={`${process.env.PUBLIC_URL}/img/hamster-image.png`} alt="" />
         </div>
       </div>
     </div>
