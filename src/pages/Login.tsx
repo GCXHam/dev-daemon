@@ -2,15 +2,17 @@ import React, { FormEvent, FormEventHandler, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { firebaseConfig } from "../FirebaseConfig";
+import { useAuthContext } from "../AuthContext";
 import { Link, useHistory } from "react-router-dom";
 import FormBox from "../components/FormBox";
 import Button from "../components/Button";
 import "./Login.css";
 
 function Login(): JSX.Element {
-  const [teamName, setTeamName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { setTeamName } = useAuthContext();
 
   const history = useHistory();
   const handleSubmit: FormEventHandler<HTMLFormElement> = (
