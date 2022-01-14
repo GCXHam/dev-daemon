@@ -1,7 +1,6 @@
 import React from "react";
 import "./CheckStatus.css";
 import Button from "../components/Button";
-import Badge from "../components/Badge";
 import MemberStatusCard from "../components/MemberStatusCard";
 
 function CheckStatus(): JSX.Element {
@@ -45,22 +44,13 @@ function CheckStatus(): JSX.Element {
               <h2>チーム名：</h2>
               <ul>
                 <li>
-                  <MemberStatusCard
-                    name="AAA"
-                    status="Leaving"
-                  />
+                  <MemberStatusCard name="AAA" status="Leaving" />
                 </li>
                 <li>
-                  <MemberStatusCard
-                    name="BBB"
-                    status="Active"
-                  />
+                  <MemberStatusCard name="BBB" status="Active" />
                 </li>
                 <li>
-                  <MemberStatusCard
-                    name="CCC"
-                    status="Active"
-                  />
+                  <MemberStatusCard name="CCC" status="Active" />
                 </li>
               </ul>
             </div>

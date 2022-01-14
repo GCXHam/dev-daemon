@@ -9,11 +9,7 @@ function MemberStatusCard(props: {
   return (
     <div>
       <p>{props.name}</p>
-      <Badge
-        title={props.status}
-        text_color="text-white"
-        bg_color="bg-green"
-      />
+      <Badge title={props.status} text_color="text-white" bg_color="bg-green" />
     </div>
   );
 }
