@@ -17,14 +17,11 @@ function Login(): JSX.Element {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  /** TODO:
-   * どちらもconstで宣言するようにする
-   *
-   * もしくは，db_ctrlerのプロパティに_team_id(private)があるので，
-   * こちらを使うようにした方がいいかもしれない
-   * （現時点では，setTeamIDメソッドは未完成？←TODOが残っている）
-   * 同時に，useAuthContext内のuserもdb_ctrlerに統合を検討
-   */
+  // TODO:
+  // db_ctrlerのプロパティに_team_id(private)があるので，
+  // こちらを使うようにする
+  // 同時に，useAuthContext内のuserもdb_ctrlerに統合を検討
+
   const { team_name, setTeamName } = useAuthContext();
   let { db_ctrler } = useAuthContext();
 
@@ -41,16 +38,13 @@ function Login(): JSX.Element {
       // Signed in
       const user_info = userCredential.user;
 
-      /** TODO:
-       * 存在しないチーム名を入力したときは，
-       * 新規チームを作成する処理を挟むべきかもしれない
-       */
       db_ctrler = new DevDaemonDBController(app);
       await db_ctrler.setUserID(user_info.uid);
       const joining_teams = await db_ctrler.getJoiningTeamList();
       if (joining_teams.find((team) => team_name === team.path.id)) {
         history.push("/checkstatus");
       } else {
+        // チーム名が存在しない -> エラーを表示してログイン画面に留まる
         alert("ログインに失敗しました（存在しないチーム名です）");
         setTeamName("");
         history.push("/");
