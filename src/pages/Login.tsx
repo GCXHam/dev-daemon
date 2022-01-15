@@ -1,6 +1,11 @@
 import React, { FormEvent, FormEventHandler, useState } from "react";
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  UserCredential,
+} from "firebase/auth";
+import { DevDaemonDBController } from "../DevDaemonDBController";
 import { firebaseConfig } from "../FirebaseConfig";
 import { useAuthContext } from "../AuthContext";
 import { Link, useHistory } from "react-router-dom";
@@ -12,7 +17,16 @@ function Login(): JSX.Element {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { setTeamName } = useAuthContext();
+  /** TODO:
+   * どちらもconstで宣言するようにする
+   *
+   * もしくは，db_ctrlerのプロパティに_team_id(private)があるので，
+   * こちらを使うようにした方がいいかもしれない
+   * （現時点では，setTeamIDメソッドは未完成？←TODOが残っている）
+   * 同時に，useAuthContext内のuserもdb_ctrlerに統合を検討
+   */
+  const { team_name, setTeamName } = useAuthContext();
+  let { db_ctrler } = useAuthContext();
 
   const history = useHistory();
   const handleSubmit: FormEventHandler<HTMLFormElement> = (
@@ -22,10 +36,29 @@ function Login(): JSX.Element {
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
+
+    const defaultSignInTransaction = async (userCredential: UserCredential) => {
+      // Signed in
+      const user_info = userCredential.user;
+
+      /** TODO:
+       * 存在しないチーム名を入力したときは，
+       * 新規チームを作成する処理を挟むべきかもしれない
+       */
+      db_ctrler = new DevDaemonDBController(app);
+      await db_ctrler.setUserID(user_info.uid);
+      const joining_teams = await db_ctrler.getJoiningTeamList();
+      if (joining_teams.find((team) => team_name === team.path.id)) {
         history.push("/checkstatus");
-      })
+      } else {
+        alert("ログインに失敗しました（存在しないチーム名です）");
+        setTeamName("");
+        history.push("/");
+      }
+    };
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(defaultSignInTransaction)
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
