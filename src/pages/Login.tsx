@@ -30,17 +30,20 @@ function Login(): JSX.Element {
       const user_info = userCredential.user;
 
       const db_ctrler = new DevDaemonDBController(app);
-      await db_ctrler.setUserID(user_info.uid);
-      await db_ctrler.setTeamID(teamName);
-      const joining_teams = await db_ctrler.getJoiningTeamList();
-      setDBCtrler(db_ctrler);
-
-      if (joining_teams.find((team) => db_ctrler.teamID === team.path.id)) {
+      try {
+        await db_ctrler.setUserID(user_info.uid);
+        await db_ctrler.setTeamID(teamName);
+        const joining_teams = await db_ctrler.getJoiningTeamList();
+        if (!joining_teams.find((team) => db_ctrler.teamID === team.path.id)) {
+          throw new Error("あなたは，このチームに所属していません");
+        }
         history.push("/checkstatus");
-      } else {
-        // チームに所属していない -> エラーを表示してログイン画面に留まる
-        alert("ログインに失敗しました（このチームに所属していません）");
+      } catch (error) {
+        alert(error);
+        auth.signOut();
         history.push("/");
+      } finally {
+        setDBCtrler(db_ctrler);
       }
     };
 
