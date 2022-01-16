@@ -1,12 +1,10 @@
 import React, { FormEvent, FormEventHandler, useState } from "react";
-import { initializeApp } from "firebase/app";
 import {
   getAuth,
   signInWithEmailAndPassword,
   UserCredential,
 } from "firebase/auth";
 import { DevDaemonDBController } from "../DevDaemonDBController";
-import { firebaseConfig } from "../FirebaseConfig";
 import { useAuthContext } from "../AuthContext";
 import { Link, useHistory } from "react-router-dom";
 import FormBox from "../components/FormBox";
@@ -22,8 +20,7 @@ function Login(): JSX.Element {
   // こちらを使うようにする
   // 同時に，useAuthContext内のuserもdb_ctrlerに統合を検討
 
-  const { team_name, setTeamName } = useAuthContext();
-  let { db_ctrler } = useAuthContext();
+  const { app, team_name, setTeamName, setDBCtrler } = useAuthContext();
 
   const history = useHistory();
   const handleSubmit: FormEventHandler<HTMLFormElement> = (
@@ -31,16 +28,18 @@ function Login(): JSX.Element {
   ) => {
     event.preventDefault();
 
-    const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
     const defaultSignInTransaction = async (userCredential: UserCredential) => {
       // Signed in
       const user_info = userCredential.user;
 
-      db_ctrler = new DevDaemonDBController(app);
+      const db_ctrler = new DevDaemonDBController(app);
+      await db_ctrler.setUserID(user_info.uid);
       await db_ctrler.setUserID(user_info.uid);
       const joining_teams = await db_ctrler.getJoiningTeamList();
+      setDBCtrler(db_ctrler);
+
       if (joining_teams.find((team) => team_name === team.path.id)) {
         history.push("/checkstatus");
       } else {
