@@ -1,7 +1,11 @@
 import React, { FormEvent, FormEventHandler, useState } from "react";
-import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseConfig } from "../FirebaseConfig";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  UserCredential,
+} from "firebase/auth";
+import { DevDaemonDBController } from "../DevDaemonDBController";
+import { useAuthContext } from "../AuthContext";
 import { Link, useHistory } from "react-router-dom";
 import FormBox from "../components/FormBox";
 import Button from "../components/Button";
@@ -11,19 +15,40 @@ function Login(): JSX.Element {
   const [teamName, setTeamName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const { app, setDBCtrler } = useAuthContext();
   const history = useHistory();
+
   const handleSubmit: FormEventHandler<HTMLFormElement> = (
     event: FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
 
-    const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
+
+    const defaultSignInTransaction = async (userCredential: UserCredential) => {
+      // Signed in
+      const user_info = userCredential.user;
+
+      const db_ctrler = new DevDaemonDBController(app);
+      try {
+        await db_ctrler.setUserID(user_info.uid);
+        await db_ctrler.setTeamID(teamName);
+        const joining_teams = await db_ctrler.getJoiningTeamList();
+        if (!joining_teams.find((team) => db_ctrler.teamID === team.path.id)) {
+          throw new Error("あなたは，このチームに所属していません");
+        }
         history.push("/checkstatus");
-      })
+      } catch (error) {
+        alert(error);
+        auth.signOut();
+        history.push("/");
+      } finally {
+        setDBCtrler(db_ctrler);
+      }
+    };
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(defaultSignInTransaction)
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
