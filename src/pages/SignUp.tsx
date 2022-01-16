@@ -45,7 +45,9 @@ function SignUp(): JSX.Element {
     createUserWithEmailAndPassword(auth, email, password)
       .then(defaultSignUpTransaction)
       .catch((error) => {
-        alert(`アカウントを作れませんでした (Code:${error.code})\n${error.message}`);
+        alert(
+          `アカウントを作れませんでした (Code:${error.code})\n${error.message}`
+        );
       });
   };
 
