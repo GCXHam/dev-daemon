@@ -91,7 +91,7 @@ const user_data_in_team_converter: FirestoreDataConverter<UserDataInTeam> = {
       path: data.Path,
       displayName: data.DisplayName,
       isAdmin: data.IsAdmin,
-      state: data.IsState,
+      state: data.State,
       lastUpdate: data.LastUpdate,
     };
   },
