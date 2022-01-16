@@ -12,17 +12,12 @@ import Button from "../components/Button";
 import "./Login.css";
 
 function Login(): JSX.Element {
+  const [teamName, setTeamName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  // TODO:
-  // db_ctrlerのプロパティに_team_id(private)があるので，
-  // こちらを使うようにする
-  // 同時に，useAuthContext内のuserもdb_ctrlerに統合を検討
-
-  const { app, team_name, setTeamName, setDBCtrler } = useAuthContext();
-
+  const { app, setDBCtrler } = useAuthContext();
   const history = useHistory();
+
   const handleSubmit: FormEventHandler<HTMLFormElement> = (
     event: FormEvent<HTMLFormElement>
   ) => {
@@ -36,16 +31,15 @@ function Login(): JSX.Element {
 
       const db_ctrler = new DevDaemonDBController(app);
       await db_ctrler.setUserID(user_info.uid);
-      await db_ctrler.setUserID(user_info.uid);
+      await db_ctrler.setTeamID(teamName);
       const joining_teams = await db_ctrler.getJoiningTeamList();
       setDBCtrler(db_ctrler);
 
-      if (joining_teams.find((team) => team_name === team.path.id)) {
+      if (joining_teams.find((team) => db_ctrler.teamID === team.path.id)) {
         history.push("/checkstatus");
       } else {
-        // チーム名が存在しない -> エラーを表示してログイン画面に留まる
-        alert("ログインに失敗しました（存在しないチーム名です）");
-        setTeamName("");
+        // チームに所属していない -> エラーを表示してログイン画面に留まる
+        alert("ログインに失敗しました（このチームに所属していません）");
         history.push("/");
       }
     };

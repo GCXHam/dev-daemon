@@ -276,7 +276,7 @@ export class DevDaemonDBController {
     }
 
     //Team内にUserがいるかどうか判定 => いなかったら失敗
-    //TODO
+    //todo (DB内でデータ齟齬が発生していない限り問題はない)
 
     //既に購読していたら, 一度購読解除する
     if (this.unsubscribe_team_data != null) {
