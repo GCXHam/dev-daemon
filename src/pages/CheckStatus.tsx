@@ -1,9 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./CheckStatus.css";
 import Button from "../components/Button";
 import MemberStatusCard from "../components/MemberStatusCard";
+import { useAuthContext } from "../AuthContext";
+import { UserDataInTeam } from "../DevDaemonDBController";
 
 function CheckStatus(): JSX.Element {
+  const [UsersData, setUsersData] = useState<UserDataInTeam[] | undefined>();
+  const { db_ctrler } = useAuthContext();
+  const user_data = db_ctrler?.userMasterData;
+
+  // useAuthContextの影響？か"db_ctrler"は，複数回のコンポーネントの
+  // 読込の末，データが格納される様子（理由は分かっていない）．
+  useEffect(() => {
+    const getUsersData = async () => {
+      setUsersData(await db_ctrler?.getUsersDataInTeam());
+    };
+
+    getUsersData();
+  }, [db_ctrler]);
+
+  function UsersStatus(): JSX.Element {
+    const map_team_info = UsersData?.map((info, index) => {
+      return (
+        <MemberStatusCard
+          key={index}
+          name={info?.displayName}
+          status={info?.state}
+        />
+      );
+    });
+    return <>{map_team_info}</>;
+  }
+
   return (
     // TODO: if `react-router-dom` is installed, insert `Link` tag.
     <div>
@@ -24,7 +53,7 @@ function CheckStatus(): JSX.Element {
           <section>
             <div className="box">
               <h2>マイステータス</h2>
-              <p>AAA</p>
+              <p>{user_data?.defaultDisplayName}</p>
               <div className="left">
                 <Button
                   title="アクティブ"
@@ -41,17 +70,9 @@ function CheckStatus(): JSX.Element {
               </div>
             </div>
             <div className="box">
-              <h2>チーム名：</h2>
+              <h2>{`チーム名: ${db_ctrler?.teamID}`}</h2>
               <ul>
-                <li>
-                  <MemberStatusCard name="AAA" status="Leaving" />
-                </li>
-                <li>
-                  <MemberStatusCard name="BBB" status="Active" />
-                </li>
-                <li>
-                  <MemberStatusCard name="CCC" status="Active" />
-                </li>
+                <UsersStatus />
               </ul>
             </div>
           </section>

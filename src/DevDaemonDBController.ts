@@ -254,6 +254,13 @@ export class DevDaemonDBController {
   }
   //#endregion
 
+  //#region Property: userMasterData
+  /** ログイン中のユーザのIDに基づくマスターデータ */
+  public get userMasterData(): MasterUserData | null {
+    return this.user_data_cache ?? null;
+  }
+  //#endregion
+
   //#region  Property: teamID
   /** 現在使用中のチームのID */
   public get teamID(): string {
@@ -307,6 +314,26 @@ export class DevDaemonDBController {
     );
   }
   //#endregion
+
+  /** 現在使用中のチーム内のマスターデータの取得 */
+  public async getUsersDataInTeam(): Promise<UserDataInTeam[] | undefined> {
+    if (this.team_data_ref == null) {
+      return;
+    }
+
+    const data_ref = collection(
+      this.db,
+      this.team_data_ref?.path,
+      "users"
+    ).withConverter(user_data_in_team_converter);
+
+    const ret_arr: UserDataInTeam[] = [];
+
+    const values = await getDocs(data_ref);
+
+    values.forEach((doc) => ret_arr.push(doc.data()));
+    return ret_arr;
+  }
 
   /** 自身が所属するチームのリストを取得する */
   public async getJoiningTeamList(): Promise<TeamDataInUser[]> {
