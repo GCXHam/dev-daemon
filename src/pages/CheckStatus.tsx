@@ -34,7 +34,6 @@ function CheckStatus(): JSX.Element {
   }
 
   return (
-    // TODO: if `react-router-dom` is installed, insert `Link` tag.
     <div>
       <header>
         <h1>開発を見守る</h1>
