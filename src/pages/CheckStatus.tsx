@@ -20,19 +20,6 @@ function CheckStatus(): JSX.Element {
     getUsersData();
   }, [db_ctrler]);
 
-  function UsersStatus(): JSX.Element {
-    const map_team_info = UsersData?.map((info, index) => {
-      return (
-        <MemberStatusCard
-          key={index}
-          name={info?.displayName}
-          status={info?.state}
-        />
-      );
-    });
-    return <>{map_team_info}</>;
-  }
-
   return (
     <div>
       <header>
@@ -71,7 +58,14 @@ function CheckStatus(): JSX.Element {
             <div className="box">
               <h2>{`チーム名: ${db_ctrler?.teamID}`}</h2>
               <ul>
-                <UsersStatus />
+                {/* TODO: UsersDataに対して，filterメソッドを使用して自身のステータスは表示しないようにする */}
+                {UsersData?.map((info, index) => (
+                  <MemberStatusCard
+                    key={index}
+                    name={info?.displayName}
+                    status={info?.state}
+                  />
+                ))}
               </ul>
             </div>
           </section>
