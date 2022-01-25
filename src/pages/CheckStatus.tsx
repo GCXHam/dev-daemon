@@ -13,11 +13,7 @@ function CheckStatus(): JSX.Element {
   // useAuthContextの影響？か"db_ctrler"は，複数回のコンポーネントの
   // 読込の末，データが格納される様子（理由は分かっていない）．
   useEffect(() => {
-    const getUsersData = async () => {
-      setUsersData(await db_ctrler?.getUsersDataInTeam());
-    };
-
-    getUsersData();
+    db_ctrler?.getUsersDataInTeam()?.then(setUsersData);
   }, [db_ctrler]);
 
   return (
