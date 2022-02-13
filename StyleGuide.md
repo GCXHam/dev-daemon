@@ -85,6 +85,22 @@ function SignUp(): JSX.Element {
   * 既知の不具合には，`FIXME: 説明`とする．
   * 緊急性の高いものは`大文字`にする．
 
+### アロー関数
+
+* 2項以上ある場合は`括弧()`をつけ, 単項の場合はつけない．
+* 関数の中身が`1行`からなるときは，`returnをつけない`．
+
+```typescript
+const func1 = (a => a);
+const func2 = (a => (a * a));
+const func3 = ((a, b) => (a / b));
+
+const func4 = ((a, b) => {
+  const offset = 10;
+  return a + b + offset;
+});
+```
+
 ### 非同期処理
 
 単一の非同期実行結果のみを用いるのであれば`then`, 複数の文からなる非同期実行結果を用いるのであれば`async-await`を使用する．
