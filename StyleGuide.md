@@ -76,3 +76,37 @@ function SignUp(): JSX.Element {
   return (<>h1_tag</>);
 }
 ```
+
+### コメント
+
+* 一行も複数行も`//`で記述する．
+* アノテーションコメントをつけたときは，基本，`別のisuue`も立てる．
+  * あとで対応するときは，`TODO: 説明`とする．
+  * 既知の不具合には，`FIXME: 説明`とする．
+  * 緊急性の高いものは`大文字`にする．
+
+### 非同期処理
+
+単一の非同期実行結果のみを用いるのであれば`then`, 複数の文からなる非同期実行結果を用いるのであれば`async-await`を使用する．
+
+```typescript
+/* thenを使用 */
+db_ctrler?.getUsersDataInTeam()?.then(setUsersData);
+
+/* async-awaitを使用 */
+public async setUserID(id: string): Promise<void> {
+  const data_ref = this.getUserDataMasterRef(id);
+
+  const docSnap = await getDoc(data_ref).catch((e) => {
+    console.error("Error has occured : ", e);
+    throw e;
+  });
+
+  this.user_data_cache = docSnap.data();
+}
+```
+
+### 関数コンポーネントの分割単位
+
+`10行以上`の関数コンポーネントは別ファイルに分割する．
+それ以外は，カプセル化せずに直書きをする．
